@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefa 1</title>
+    <link rel="stylesheet" href="../src/css/basic-structure.css">
+    <link rel="stylesheet" href="../src/css/task1.css">
+    <link rel="stylesheet" href="../src/css/reset.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="../index.html"><h3 class="voltar">◀️ Voltar</h3></a>
+        <h3 class="title">Task 1 - Conversor de Números Romanos 🔢</h3>
+    </header>
+    <main>
+        <form action="" id="conversion" onsubmit="return false">
+            <div class="conversion-order">
+                <select name="from" id="from">
+                    <option value="roman">Romanos</option>
+                    <option value="arabic">Arábicos</option>
+                </select>
+                <p>🔁</p>
+                <select name="to" id="to">
+                    <option value="arabic">Arábicos</option>
+                    <option value="roman">Romanos</option>
+                </select>
+            </div>
+
+            <input autocomplete="false" type="text" name="number-input" id="number-input">
+            <button type="submit">Convert</button>
+            <p class="result"></p>
+        </form>
+
+        
+    </main>
+
+    <script src="../src/scripts/task1.js"></script>
+</body>
+</html>
