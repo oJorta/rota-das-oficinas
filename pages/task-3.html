@@ -16,9 +16,61 @@
         <h3 class="title">Task 3 - Divisor de conta de restaurante 🍽️</h3>
     </header>
     <main>
+        <div class="users">
+            <button id="add-user">👤 Add User</button>
+            <div class="users-grid"></div>
+        </div>
+
+        <div class="items">
+            <button id="add-item">🍽️ Add Item</button>
+            <div class="items-grid">
+                
+            </div>
+        </div>
+
+
+        <div class="user-modal">
+            <div class="modal-content">
+                <h2>New user name:</h2>
+                <form id="add-user-form" method="post">
+                    <div class="form-row">
+                        <input type="text" name="" id="" required autocomplete="off">
+                    </div>
+
+                    <button type="submit" id="add-user-submit">➕ ADD</button>
+                </form>
+            </div>
+        </div>
+
+        <button id="calculate">Calculate</button>
         
+        <div class="result">
+            
+        </div>
+
+        <div class="item-modal">
+            <div class="modal-content">
+                <form id="add-item-form" method="post">
+                    <h2>Food name:</h2>
+                    <div class="form-row">
+                        <input type="text" name="" id="name" required autocomplete="off">
+                    </div>
+                    <h2>Price:</h2>
+                    <div class="form-row">
+                        <input type="number" name="" id="price" required autocomplete="off">
+                    </div>
+                    <h2>Shared food?</h2>
+                    <div class="form-row">
+                        <input type="checkbox" name="" id="shared">
+                    </div>
+
+                    <button type="submit" id="add-user-submit">➕ ADD</button>
+                </form>
+            </div>
+        </div>
+
     </main>
 
-    <script src="../src/scripts/task1.js"></script>
+    <script src="../src/scripts/task3.js"></script>
 </body>
 </html>
