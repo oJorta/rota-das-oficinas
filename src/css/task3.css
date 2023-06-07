@@ -4,6 +4,7 @@ main{
     gap: 2rem;
     padding-top: 2rem;
 }
+
 .users{
     display: flex;
     width: 50%;
@@ -55,8 +56,6 @@ main{
     overflow-x: hidden;
     margin-top: 2rem;
 }
-
-
 
 .item{
     display: flex;
