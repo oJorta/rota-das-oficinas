@@ -18,9 +18,15 @@
     <main>
         <div class="users">
             <button id="add-user">👤 Add User</button>
-            <div class="users-grid"></div>
+            <div class="users-grid">
+                
+            </div>
         </div>
 
+        <div class="result">
+            
+        </div>
+        
         <div class="items">
             <button id="add-item">🍽️ Add Item</button>
             <div class="items-grid">
@@ -31,8 +37,8 @@
 
         <div class="user-modal">
             <div class="modal-content">
-                <h2>New user name:</h2>
                 <form id="add-user-form" method="post">
+                    <h2>New user name:</h2>
                     <div class="form-row">
                         <input type="text" name="" id="" required autocomplete="off">
                     </div>
@@ -44,9 +50,6 @@
 
         <button id="calculate">Calculate</button>
         
-        <div class="result">
-            
-        </div>
 
         <div class="item-modal">
             <div class="modal-content">
@@ -57,7 +60,7 @@
                     </div>
                     <h2>Price:</h2>
                     <div class="form-row">
-                        <input type="number" name="" id="price" required autocomplete="off">
+                        <input type="number" name="" min="0" step="any" id="price" required autocomplete="off">
                     </div>
                     <h2>Shared food?</h2>
                     <div class="form-row">

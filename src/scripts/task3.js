@@ -65,7 +65,11 @@ function addUser(name){
     
     newUserDiv.classList.add('user');
     newUserDiv.innerHTML = `<h2>👤</h2>
-    <p>${newUser.name}</p>`                       
+    <p>${newUser.name}</p>
+    <div class="tax-payment">
+        <input type="checkbox" name="tax" id="tax-${newUser.id}" data-userid="${newUser.id}">
+        <label for="tax-${newUser.id}">10% Tax</label>
+    </div>`                       
     
     users.push(newUser);
     usersGrid.appendChild(newUserDiv);
@@ -78,16 +82,7 @@ function addItem(values){
         price: values[1],
         shared: values[2]
     };
-/*     if (newItem.shared) {
-        let payers = {};
-        users.forEach( (user) => {
-            let userId = user.id;
-            payers[`${userId}`] = false;
-        });
-        newItem.payers = payers;
-        console.log(newItem)
-    }
- */
+
     let newItemDiv = document.createElement('div');
     let payersDiv = document.createElement('div');
     let sharedDiv = document.createElement('div');
@@ -122,10 +117,10 @@ function addItem(values){
 
         if (newItem.shared) {
             payer.innerHTML = `<label for="">${user.name}</label>
-            <input type="checkbox" name="" data-item=${newItem.id} data-payerid=${user.id} value="0">`
+            <input type="checkbox" name="" data-item=${newItem.id} data-userid=${user.id}>`
         } else {
             payer.innerHTML = `<label for="">${user.name}</label>
-            <input type="number" name="" data-payerid=${user.id} value="0">`
+            <input type="number" name="" data-item=${newItem.id} data-userid=${user.id} value="0">`
         }
         
         
@@ -158,25 +153,25 @@ function getFormData(form){
 function calculateBill(){
     resetBill();
     let itemsDOM = document.querySelectorAll('.item');
-
+    
     itemsDOM.forEach( (item) => {
         let itemId = Number(item.id);
         let currentItem = items.find( item => item.id === itemId ? 1:0);
-        let payersShared = [];
-        let payersIndividual = [];
-
+        let sharedArray = [];
+        let individualArray = [];
+        
         if (currentItem.shared) {
-            let payersInputs = document.querySelectorAll('.payer input');
+            let payersInputs = document.querySelectorAll(`.payer input[type="checkbox"]`);
             payersInputs.forEach( (payerCheckbox) => {
-                if (payerCheckbox.type === 'checkbox' && Number(payerCheckbox.dataset.item) === currentItem.id && payerCheckbox.checked) {
-                    payersShared.push(Number(payerCheckbox.dataset.payerid));
+                if (Number(payerCheckbox.dataset.item) === currentItem.id && payerCheckbox.checked) {
+                    sharedArray.push(Number(payerCheckbox.dataset.userid));
                 }
             });
-
-            let valuePerPayer = currentItem.price / payersShared.length;
-
+            
+            let valuePerPayer = currentItem.price / sharedArray.length;
+            
             let usersUpdated = users.map( user => {
-                if (payersShared.includes(user.id)) {
+                if (sharedArray.includes(user.id)) {
                     let billUpdated = user.bill + valuePerPayer;
                     return {
                         id: user.id,
@@ -190,13 +185,13 @@ function calculateBill(){
 
             users = usersUpdated;
         } else {
-            const payersInputs = document.querySelectorAll('.payer input');
+            const payersInputs = document.querySelectorAll(`.payer input[type="number"]`);
 
             payersInputs.forEach( (payerAmountConsumed) => {
-                if (payerAmountConsumed.type === 'number' && payerAmountConsumed.value) {
-                    payersIndividual.push(
+                if (Number(payerAmountConsumed.dataset.item) === currentItem.id && payerAmountConsumed.value) {
+                    individualArray.push(
                         {
-                            id: Number(payerAmountConsumed.dataset.payerid),
+                            id: Number(payerAmountConsumed.dataset.userid),
                             amount: Number(payerAmountConsumed.value)
                         }
                     );
@@ -204,7 +199,7 @@ function calculateBill(){
             });
 
             let usersUpdated = users.map( (user) => {
-                let currentPayer = payersIndividual.find( payer => payer.id === user.id ? 1:0);
+                let currentPayer = individualArray.find( payer => payer.id === user.id ? 1:0);
                 if (currentPayer) {
                     let billUpdated = user.bill + (currentItem.price * currentPayer.amount);
                     return {
@@ -220,6 +215,8 @@ function calculateBill(){
             users = usersUpdated;
         }
     });
+
+    taxInclusion();
     printResult();
 }
 
@@ -229,11 +226,35 @@ function resetBill(){
     })
 }
 
+function taxInclusion(){
+    let usersTaxInputs = document.querySelectorAll(`.user input[type="checkbox"]`);
+
+    usersTaxInputs.forEach( (taxInput) => {
+        if (taxInput.checked) {
+            let usersUpdated = users.map( (user) => {
+                if (user.id === Number(taxInput.dataset.userid)) {
+                    let billUpdated = user.bill + (user.bill/10);
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        bill: billUpdated
+                    }
+                } else {
+                    return user;
+                }
+            });
+
+            users = usersUpdated;
+        }
+    });
+}
+
 function printResult(){
     result.style.display = "flex";
     result.innerHTML = '';
+
     users.forEach( (user) => {
-        result.innerHTML += `<h2>${user.name}: $${user.bill}</h2>`
+        result.innerHTML += `<h2>${user.name}: $${(user.bill).toFixed(2)}</h2>`
         if (user.id !== users.length) {
             result.innerHTML += `<p>|</p>`
         }
